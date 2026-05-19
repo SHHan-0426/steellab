@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>리서치 아카이브 — SteelLab</title>
+<meta name="description" content="20여 년간 축적된 800여 건의 철강 산업 분석 자료. 주제·필진·기간별 필터링과 검색.">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container row">
+    <a href="../index.html" class="logo">Steel<span class="accent">Lab</span></a>
+    <nav class="nav">
+      <a href="./" style="color:var(--c-accent);">리서치 아카이브</a>
+      <a href="../premium/">프리미엄 리포트</a>
+      <a href="../tv/">SteelLab TV</a>
+      <a href="../academy/">아카데미</a>
+      <a href="../events/">이벤트</a>
+      <a href="../data/">데이터 센터</a>
+      <a href="#" class="login-btn">로그인</a>
+    </nav>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">홈</a> / 리서치 아카이브</div>
+    <h1>리서치 아카이브</h1>
+    <p style="color:var(--c-text-muted);margin:0;max-width:720px;">
+      스틸데일리 철강연구소가 20여 년간 축적한 분석·칼럼·리포트 714건. 주제·필진·기간으로 좁혀 보세요.
+      각 항목을 클릭하면 스틸데일리 본사이트의 원문 페이지가 열립니다 (구독 회원 로그인 필요).
+    </p>
+  </div>
+</div>
+
+<div class="container archive-layout">
+
+  <aside class="filters">
+    <h3>필터</h3>
+
+    <div class="filter-group">
+      <h4>카테고리 <button class="filter-clear" data-clear="cat">초기화</button></h4>
+      <div class="filter-list" id="f-cat"></div>
+    </div>
+
+    <div class="filter-group">
+      <h4>필진 <button class="filter-clear" data-clear="author">초기화</button></h4>
+      <div class="filter-list" id="f-author"></div>
+    </div>
+
+    <div class="filter-group">
+      <h4>연도 <button class="filter-clear" data-clear="year">초기화</button></h4>
+      <div class="filter-list" id="f-year"></div>
+    </div>
+  </aside>
+
+  <main class="archive-main">
+    <div class="search-row">
+      <input type="text" id="q" class="search-input" placeholder="제목·필진·키워드로 검색…">
+      <select id="sort" class="sort-select">
+        <option value="date_desc">최신순</option>
+        <option value="date_asc">오래된순</option>
+        <option value="title">제목순</option>
+        <option value="author">필진순</option>
+      </select>
+    </div>
+
+    <div class="result-bar">
+      <div><span id="count">0</span>건</div>
+      <div class="active-tags" id="active-tags"></div>
+    </div>
+
+    <div class="article-list" id="list"></div>
+
+    <nav class="pager" id="pager"></nav>
+  </main>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="copyright" style="border-top:0;padding-top:0;margin-top:0;">
+      <span>© 2026 SteelLab · 본 사이트의 모든 콘텐츠 저작권은 스틸데일리에 있습니다.</span>
+      <span><a href="../index.html">홈으로 →</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/archive.js"></script>
+</body>
+</html>

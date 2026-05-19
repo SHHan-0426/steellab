@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Local-only — 개인 PDF 자료실은 절대 커밋하지 않음
+pdfs/
+*.pdf
+
+# Netlify
+.netlify/
+
+# Node (혹시 추후 빌드 도입 시)
+node_modules/
