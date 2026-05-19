@@ -53,19 +53,72 @@ a:hover { color: var(--c-accent-hover); }
   color: var(--c-text);
 }
 .logo .accent { color: var(--c-accent); }
-.nav { display: flex; gap: 28px; align-items: center; }
-.nav a { color: var(--c-text); font-weight: 500; font-size: 15px; }
-.nav a:hover { color: var(--c-accent); }
-.nav .login-btn {
-  padding: 8px 16px; background: var(--c-accent); color: #fff;
-  border-radius: 6px; font-weight: 600;
+.nav { display: flex; gap: 4px; align-items: center; }
+.nav-item { position: relative; }
+.nav-item > a, .nav > a {
+  color: var(--c-text); font-weight: 500; font-size: 15px;
+  padding: 10px 14px; display: inline-block; border-radius: 6px;
+  cursor: pointer;
 }
-.nav .login-btn:hover { background: var(--c-accent-hover); color: #fff; }
+.nav-item > a.has-dropdown::after {
+  content: "▾"; font-size: 10px; margin-left: 4px; color: var(--c-text-muted);
+}
+.nav-item:hover > a, .nav-item:focus-within > a { color: var(--c-accent); background: var(--c-bg-soft); }
+.nav-item .dropdown {
+  position: absolute; top: 100%; left: 0;
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: 10px; box-shadow: var(--shadow-lg);
+  min-width: 240px; padding: 8px;
+  display: none; z-index: 60;
+}
+.nav-item:hover .dropdown, .nav-item:focus-within .dropdown { display: block; }
+.dropdown a {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 12px; font-size: 14px; color: var(--c-text);
+  border-radius: 6px; font-weight: 500;
+}
+.dropdown a:hover { background: var(--c-bg-soft); color: var(--c-accent); }
+.dropdown .grp-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--c-text-light); padding: 8px 12px 4px; font-weight: 600;
+}
+.dropdown .divider { height: 1px; background: var(--c-border); margin: 6px 0; }
+.dropdown .mini {
+  font-size: 11px; color: var(--c-text-light); padding: 2px 12px 6px;
+}
+.nav-cta {
+  display: inline-flex; gap: 8px; align-items: center; margin-left: 8px;
+}
+.nav-cta .ghost-cta {
+  padding: 8px 14px; border: 1px solid var(--c-border); color: var(--c-text);
+  border-radius: 6px; font-weight: 600; font-size: 14px;
+}
+.nav-cta .ghost-cta:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.nav-cta .login-btn {
+  padding: 8px 16px; background: var(--c-accent); color: #fff;
+  border-radius: 6px; font-weight: 600; font-size: 14px;
+}
+.nav-cta .login-btn:hover { background: var(--c-accent-hover); color: #fff; }
 
+/* nav badges (e.g., "714건 무료") */
+.nav-badge {
+  display: inline-block; margin-left: 6px;
+  background: #ecfdf5; color: #047857;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px; letter-spacing: 0.02em;
+}
+.dropdown a .row-badge {
+  background: #f1f5f9; color: var(--c-text-muted);
+  font-size: 11px; padding: 2px 7px; border-radius: 4px; font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .nav-item > a span.label-long { display: none; }
+  .nav { gap: 0; }
+}
 @media (max-width: 768px) {
-  .nav { gap: 16px; font-size: 14px; }
-  .nav a:not(.login-btn) { display: none; }
-  .nav .home-only { display: inline; }
+  .nav-item, .nav-cta .ghost-cta { display: none; }
+  .nav-cta { margin-left: auto; }
 }
 
 /* ===== Hero ===== */
@@ -388,3 +441,111 @@ a:hover { color: var(--c-accent-hover); }
 }
 .coming-soon-wrap .timeline h4 { margin: 0 0 12px; font-size: 14px; color: var(--c-text); }
 .coming-soon-wrap .timeline ul { margin: 0; padding-left: 20px; color: var(--c-text-muted); font-size: 14px; line-height: 1.8; }
+
+/* ===== Email signup (Netlify Forms) ===== */
+.signup-form {
+  margin: 24px auto 0; max-width: 480px;
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.signup-form input[type="email"] {
+  flex: 1; min-width: 220px;
+  padding: 12px 16px; font-size: 15px;
+  border: 1px solid var(--c-border); border-radius: 6px;
+  font-family: inherit;
+}
+.signup-form input[type="email"]:focus { outline: none; border-color: var(--c-accent); }
+.signup-form button {
+  padding: 12px 22px; background: var(--c-accent); color: #fff;
+  border: none; border-radius: 6px; font-weight: 600; font-size: 15px;
+  cursor: pointer;
+}
+.signup-form button:hover { background: var(--c-accent-hover); }
+.signup-form .form-note {
+  width: 100%; font-size: 12px; color: var(--c-text-light); text-align: center;
+}
+
+/* ===== Membership tiers ===== */
+.tier-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 24px;
+}
+.tier-card {
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg); padding: 28px;
+  display: flex; flex-direction: column;
+}
+.tier-card.featured { border-color: var(--c-accent); box-shadow: var(--shadow-lg); position: relative; }
+.tier-card.featured::before {
+  content: "추천"; position: absolute; top: -10px; right: 20px;
+  background: var(--c-accent); color: #fff; font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 4px; letter-spacing: 0.04em;
+}
+.tier-card h3 { margin: 0 0 4px; font-size: 18px; font-weight: 700; }
+.tier-card .price {
+  font-size: 28px; font-weight: 800; margin: 12px 0 4px;
+  color: var(--c-text); letter-spacing: -0.01em;
+}
+.tier-card .price small { font-size: 14px; color: var(--c-text-muted); font-weight: 500; }
+.tier-card .target { color: var(--c-text-muted); font-size: 13px; margin: 0 0 16px; }
+.tier-card ul {
+  list-style: none; padding: 0; margin: 0 0 20px; flex: 1;
+}
+.tier-card ul li {
+  padding: 6px 0 6px 22px; position: relative;
+  font-size: 14px; line-height: 1.55;
+  border-bottom: 1px dashed #eef2f6;
+}
+.tier-card ul li::before {
+  content: "✓"; position: absolute; left: 0; color: var(--c-accent); font-weight: 700;
+}
+.tier-card ul li:last-child { border-bottom: 0; }
+.tier-card .btn { width: 100%; justify-content: center; }
+
+@media (max-width: 900px) { .tier-grid { grid-template-columns: 1fr; } }
+
+/* ===== Contributors grid ===== */
+.contrib-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-top: 24px;
+}
+.contrib-card {
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg); padding: 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+  text-decoration: none; color: var(--c-text);
+  transition: all 0.15s ease;
+}
+.contrib-card:hover { border-color: var(--c-accent); box-shadow: var(--shadow-md); color: var(--c-text); }
+.contrib-card .avatar {
+  width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+  background: var(--c-accent-soft); color: var(--c-accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
+}
+.contrib-card .info { min-width: 0; flex: 1; }
+.contrib-card .name { font-weight: 700; font-size: 15px; }
+.contrib-card .desc { font-size: 12px; color: var(--c-text-muted); margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contrib-card .stat { font-size: 12px; color: var(--c-accent); margin-top: 6px; font-weight: 600; }
+
+@media (max-width: 900px) { .contrib-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px) { .contrib-grid { grid-template-columns: 1fr; } }
+
+/* ===== Two-column layout (enterprise/B2B page) ===== */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;
+}
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr; gap: 24px; } }
+
+.feature-list {
+  list-style: none; padding: 0; margin: 12px 0 0;
+}
+.feature-list li {
+  padding: 10px 0 10px 28px; position: relative;
+  border-top: 1px solid var(--c-border);
+  font-size: 14px; line-height: 1.6;
+}
+.feature-list li::before {
+  content: "→"; position: absolute; left: 0; top: 10px;
+  color: var(--c-accent); font-weight: 700;
+}

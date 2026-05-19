@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>필진·전문가 소개 — SteelLab</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container row">
+    <a href="../index.html" class="logo">Steel<span class="accent">Lab</span></a>
+    <nav class="nav">
+      <div class="nav-item"><a class="has-dropdown" href="#">콘텐츠</a>
+        <div class="dropdown">
+          <a href="../archive/">리서치 아카이브 <span class="row-badge">714 무료</span></a>
+          <a href="../premium/">프리미엄 리포트</a>
+          <a href="../tv/">SteelLab TV</a>
+          <a href="../data/">데이터 센터 <span class="row-badge">B2B</span></a>
+        </div>
+      </div>
+      <div class="nav-item"><a class="has-dropdown" style="color:var(--c-accent);background:var(--c-bg-soft);">커뮤니티</a>
+        <div class="dropdown">
+          <a href="../community/#discussion">토론·Q&amp;A</a>
+          <a href="../community/#column-talk">전문가 칼럼 토론</a>
+          <a href="../events/">이벤트·세미나</a>
+          <a href="./">필진·전문가 소개</a>
+        </div>
+      </div>
+      <div class="nav-item"><a class="has-dropdown" href="#">서비스·구독</a>
+        <div class="dropdown">
+          <a href="../membership/">구독 안내</a>
+          <a href="../membership/#pro">프리미엄 멤버십</a>
+          <a href="../enterprise/">기업·기관 문의</a>
+          <a href="../academy/">아카데미 사전신청</a>
+        </div>
+      </div>
+      <div class="nav-cta">
+        <a href="../membership/" class="ghost-cta">무료 체험</a>
+        <a href="#" class="login-btn">로그인</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumb"><a href="../index.html">홈</a> / 커뮤니티 / 필진·전문가</div>
+    <h1>필진·전문가 소개</h1>
+    <p style="color:var(--c-text-muted);max-width:720px;margin:0;">
+      스틸데일리 철강연구소 22년치 분석의 토대를 만든 전문가들. 클릭하면 해당 필진의 모든 자료가 아카이브에서 열립니다.
+    </p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div id="stats-line" style="margin-bottom:20px;color:var(--c-text-muted);font-size:14px;"></div>
+    <div class="contrib-grid" id="grid"></div>
+
+    <div style="margin-top:48px;padding:24px;border:1px solid var(--c-border);border-radius:12px;background:var(--c-bg-soft);">
+      <h3 style="margin:0 0 6px;font-size:16px;">필진 팔로우 (예정)</h3>
+      <p style="color:var(--c-text-muted);font-size:14px;margin:0;">
+        Pro 멤버십에서는 관심 필진을 팔로우하여 신규 리포트 알림을 받을 수 있게 됩니다.
+        <a href="../membership/#early-access">얼리버드 사전신청 →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="copyright" style="border-top:0;padding-top:0;margin-top:0;">
+      <span>© 2026 SteelLab</span>
+      <span><a href="../index.html">홈으로 →</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(async function () {
+  const res = await fetch('../assets/data/articles.json');
+  const arts = await res.json();
+
+  // 동명이인 직책 차이는 author_key 로 정규화 (성+이름 추출)
+  // 각 필진별로 정리: 총 건수 / 카테고리 비중 / 최신 글 / 가장 자주 쓴 직책(라벨용)
+  const map = new Map();
+  for (const a of arts) {
+    const key = a.author_key || '미지정';
+    if (key === '미지정' || key === '데스크') continue;  // 일반 필자가 아니면 건너뜀
+    if (!map.has(key)) map.set(key, { key, n: 0, cats: {}, titles: [], dates: [], roles: {} });
+    const e = map.get(key);
+    e.n += 1;
+    e.cats[a.sub_category] = (e.cats[a.sub_category] || 0) + 1;
+    e.dates.push(a.date || '');
+    if (a.author) e.roles[a.author] = (e.roles[a.author] || 0) + 1;
+  }
+
+  // 전공 분야 = 최다 카테고리, 대표 직함 = 최다 사용 직함
+  const list = [...map.values()].map(e => {
+    const topCat = Object.entries(e.cats).sort((a,b)=>b[1]-a[1])[0];
+    const topRole = Object.entries(e.roles).sort((a,b)=>b[1]-a[1])[0];
+    const latestDate = e.dates.sort().slice(-1)[0] || '';
+    return {
+      key: e.key, n: e.n,
+      topCat: topCat ? topCat[0] : '',
+      role: topRole ? topRole[0] : e.key,
+      latest: latestDate.slice(0,10),
+    };
+  }).sort((a,b) => b.n - a.n);
+
+  const totalArts = list.reduce((s, x) => s + x.n, 0);
+  document.getElementById('stats-line').innerHTML =
+    `총 <strong style="color:var(--c-text);">${list.length}명</strong>의 필진 · 합계 <strong style="color:var(--c-text);">${totalArts}건</strong> 작성`;
+
+  document.getElementById('grid').innerHTML = list.map(c => {
+    const initial = c.key.charAt(0);
+    const archiveLink = `../archive/?author=${encodeURIComponent(c.key)}`;
+    return `
+      <a class="contrib-card" href="${archiveLink}">
+        <div class="avatar">${initial}</div>
+        <div class="info">
+          <div class="name">${c.key}</div>
+          <div class="desc" title="${c.role}">${c.role}</div>
+          <div class="stat">${c.n}건 · 주력 ${c.topCat || '—'}</div>
+        </div>
+      </a>
+    `;
+  }).join('');
+})();
+</script>
+</body>
+</html>
